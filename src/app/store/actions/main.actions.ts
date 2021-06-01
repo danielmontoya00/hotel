@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { CheckIn } from 'src/app/models/checkin.model';
 import { Habitacion } from 'src/app/models/habitacion.model';
+import { Insumo } from 'src/app/models/insumo.model';
 import { Reservacion } from 'src/app/models/reservacion.model';
 import { Hotel } from '../../models/hotel.model';
 
@@ -106,5 +107,49 @@ export const hotelSuccess = createAction(
 
 export const hotelFailure = createAction(
   '[Main] Hotel Failure',
+  props<{ error: any }>()
+);
+
+export const insumos = createAction(
+  '[Main] Insumos'
+);
+
+export const insumosSuccess = createAction(
+  '[Main] Insumos Success',
+  props<{ data: Insumo[] }>()
+);
+
+export const insumosFailure = createAction(
+  '[Main] Insumos Failure',
+  props<{ error: any }>()
+);
+
+export const crearInsumo = createAction(
+  '[Main] crearInsumo',
+  props<{ nombre: string, tipo: string, inventario: number }>()
+);
+
+export const crearInsumoSuccess = createAction(
+  '[Main] crearInsumo Success',
+  props<{ data: Insumo }>()
+);
+
+export const crearInsumoFailure = createAction(
+  '[Main] crearInsumo Failure',
+  props<{ error: any }>()
+);
+
+export const editInsumo = createAction(
+  '[Main] editInsumo',
+  props<{ id: string, nombre: string, tipo: string, inventario: number }>()
+);
+
+export const editInsumoSuccess = createAction(
+  '[Main] editInsumo Success',
+  props<{ data: Insumo }>()
+);
+
+export const editInsumoFailure = createAction(
+  '[Main] editInsumo Failure',
   props<{ error: any }>()
 );

@@ -3,6 +3,7 @@ import { Habitacion } from 'src/app/models/habitacion.model';
 import * as appActions from '../actions/main.actions';
 import { CheckIn } from '../../models/checkin.model';
 import { Hotel } from 'src/app/models/hotel.model';
+import { Insumo } from 'src/app/models/insumo.model';
 
 
 export interface MainState {
@@ -11,6 +12,7 @@ export interface MainState {
   habitaciones: Habitacion[];
   checkIns: CheckIn[];
   hotel: Hotel;
+  insumos: Insumo[]
 }
 
 const initialState: MainState = {
@@ -18,7 +20,8 @@ const initialState: MainState = {
   error: null,
   habitaciones: [],
   checkIns: [],
-  hotel: null
+  hotel: null,
+  insumos: []
 };
 
 export const reducer = createReducer(
@@ -66,6 +69,22 @@ export const reducer = createReducer(
     hotel: data
   })),
   on(appActions.hotelFailure, (state, { error }) => ({
+    ...state,
+    cargando: false,
+    error: { ...error }
+  })),
+
+  on(appActions.insumos, (state) => ({
+    ...state,
+    cargando: true,
+    error: null,
+  })),
+  on(appActions.insumosSuccess, (state, { data }) => ({
+    ...state,
+    cargando: false,
+    insumos: [ ...data ]
+  })),
+  on(appActions.insumosFailure, (state, { error }) => ({
     ...state,
     cargando: false,
     error: { ...error }

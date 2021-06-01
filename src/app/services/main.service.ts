@@ -9,6 +9,7 @@ import { AppState } from '../store/app.reducer';
 import { editHabitacion } from '../store/actions/main.actions';
 import { Reservacion } from '../models/reservacion.model';
 import { Hotel } from '../models/hotel.model';
+import { Insumo } from '../models/insumo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,14 @@ export class MainService {
   getHabitaciones() {
     return this.http.get(`${environment.apiURL}/habitacions`).pipe(
       map((data: Habitacion[]) => {
+        return data;
+      })
+    );
+  }
+
+  getInsumos() {
+    return this.http.get(`${environment.apiURL}/insumos`).pipe(
+      map((data: Insumo[]) => {
         return data;
       })
     );
@@ -68,6 +77,30 @@ export class MainService {
       razon_social: razon
     }).pipe(
       map((data: CheckIn) => {
+        return data;
+      })
+    );
+  }
+
+  crearInsumo(nombre: string, tipo: string, inventario: number) {
+    return this.http.post(`${environment.apiURL}/insumos`, {
+      nombre,
+      tipo,
+      inventario
+    }).pipe(
+      map((data: Insumo) => {
+        return data;
+      })
+    );
+  }
+
+  editInsumo(id: string, nombre: string, tipo: string, inventario: number) {
+    return this.http.put(`${environment.apiURL}/insumos/${id}`, {
+      nombre,
+      tipo,
+      inventario
+    }).pipe(
+      map((data: Insumo) => {
         return data;
       })
     );

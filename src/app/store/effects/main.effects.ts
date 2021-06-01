@@ -102,6 +102,47 @@ export class AppEffects {
     );
   });
 
+  insumo$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(mainActions.insumos),
+        switchMap(() =>
+          this.mainService.getInsumos().pipe(
+            map(data => mainActions.insumosSuccess({ data })),
+            catchError(error => of(mainActions.insumosFailure({ error }))))
+          ),
+    );
+  });
+
+
+  crearInsumo$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(mainActions.crearInsumo),
+        switchMap(({ nombre, tipo, inventario }) =>
+          this.mainService.crearInsumo(nombre, tipo, inventario).pipe(
+            map(data => mainActions.crearInsumoSuccess({ data })),
+            tap(x => {
+              this.store.dispatch(mainActions.insumos());
+            }),
+            catchError(error => of(mainActions.crearInsumoFailure({ error }))))
+          ),
+    );
+  });
+
+
+  editInsumo$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(mainActions.editInsumo),
+        switchMap(({id, tipo, nombre, inventario}) =>
+          this.mainService.editInsumo(id, nombre, tipo, inventario).pipe(
+            map(data => mainActions.editInsumoSuccess({ data })),
+            tap(x => {
+              this.store.dispatch(mainActions.insumos())
+            }),
+            catchError(error => of(mainActions.editInsumoFailure({ error }))))
+          ),
+    );
+  });
+
 
   constructor(
     private actions$: Actions,

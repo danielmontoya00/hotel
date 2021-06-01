@@ -12,13 +12,20 @@ export class AppComponent {
   public appPages = [
     { title: 'Inicio', url: '/home', icon: 'home' },
     { title: 'Rentas y Reservaciones', url: '/rentas', icon: 'list' },
-    { title: 'Usuarios', url: '/usuarios', icon: 'people' },
-    // { title: 'Insumos e Inventarios', url: '/inventario', icon: 'receipt' },
+    // { title: 'Usuarios', url: '/usuarios', icon: 'people' },
+    { title: 'Insumos e Inventarios', url: '/inventario', icon: 'receipt' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+
+  cargando = false;
   constructor(
     private store: Store<AppState>
   ) {
+
+    this.store.select('mainReducer').subscribe(x => {
+      this.cargando = x.cargando;
+    })
+    
     this.store.dispatch(habitaciones());
     this.store.dispatch(hotel());
   }

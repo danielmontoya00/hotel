@@ -1,0 +1,6 @@
+<ion-list>
+  <ion-item *ngFor="let insumo of insumos" [routerLink]="['/inventario', 'editar', insumo.id]">
+    <ion-label>{{ insumo.nombre }} INVENTARIO: {{ insumo.inventario }}</ion-label>
+  </ion-item>
+</ion-list>
+<ion-button type="button" [routerLink]="['/inventario', 'crear']">Crear insumo</ion-button>

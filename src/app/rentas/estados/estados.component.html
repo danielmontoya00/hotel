@@ -1,5 +1,5 @@
 <ion-list>
   <ion-item *ngFor="let habitacion of habitaciones">
-    <ion-label>Habitacion {{ habitacion.numero }} {{ habitacion.estado }}</ion-label>
+    <ion-label>Habitacion {{ habitacion.numero }} {{ habitacion.estado.toUpperCase() }}</ion-label>
   </ion-item>
 </ion-list>
