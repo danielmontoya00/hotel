@@ -153,3 +153,18 @@ export const editInsumoFailure = createAction(
   '[Main] editInsumo Failure',
   props<{ error: any }>()
 );
+
+export const editHotel = createAction(
+  '[Main] editHotel',
+  props<{ id: string, tarifa_base: number, margen_ganancia: number }>()
+);
+
+export const editHotelSuccess = createAction(
+  '[Main] editInsumo Success',
+  props<{ data: Hotel }>()
+);
+
+export const editHotelFailure = createAction(
+  '[Main] editInsumo Failure',
+  props<{ error: any }>()
+);

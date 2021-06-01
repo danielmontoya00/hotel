@@ -116,6 +116,17 @@ export class MainService {
     )
   }
 
+  editHotel(id: string, margen_ganancia: number, tarifa_base: number) {
+    return this.http.put(`${environment.apiURL}/sistemas/${id}`, {
+      margen_ganancia,
+      tarifa_base
+    }).pipe(
+      map((data: Hotel) => {
+        return data;
+      })
+    )
+  }
+
   editCheckin(id: string, checkout: Date) {
     return this.http.put(`${environment.apiURL}/check-ins/${id}`, {
       checkout

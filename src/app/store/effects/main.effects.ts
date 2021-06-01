@@ -143,6 +143,20 @@ export class AppEffects {
     );
   });
 
+  editHotel$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(mainActions.editHotel),
+        switchMap(({id, margen_ganancia, tarifa_base}) =>
+          this.mainService.editHotel(id, margen_ganancia, tarifa_base).pipe(
+            map(data => mainActions.editHotelSuccess({ data })),
+            tap(x => {
+              this.store.dispatch(mainActions.hotel());
+            }),
+            catchError(error => of(mainActions.editHotelFailure({ error }))))
+          ),
+    );
+  });
+
 
   constructor(
     private actions$: Actions,

@@ -5,5 +5,17 @@
 </ion-header>
 
 <ion-content>
+  <form [formGroup]="hotelForm" (ngSubmit)="onSubmit()" novalidate>
+    <ion-item>
+      <ion-label position="floating">Tarifa base</ion-label>
+      <ion-input formControlName="tarifa_base" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Margen ganancia</ion-label>
+      <ion-input formControlName="margen_ganancia" type="number"></ion-input>
+    </ion-item>
+  
 
+    <ion-button type="submit" expand="block">Aceptar</ion-button>
+  </form>
 </ion-content>

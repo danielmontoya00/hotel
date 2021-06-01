@@ -14,6 +14,7 @@ export class AppComponent {
     { title: 'Rentas y Reservaciones', url: '/rentas', icon: 'list' },
     // { title: 'Usuarios', url: '/usuarios', icon: 'people' },
     { title: 'Insumos e Inventarios', url: '/inventario', icon: 'receipt' },
+    { title: 'Configuracion', url: '/config', icon: 'config' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
