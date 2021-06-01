@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Habitacion } from 'src/app/models/habitacion.model';
 import { AppState } from 'src/app/store/app.reducer';
-import { checkIn } from '../../store/actions/main.actions';
+import { checkIn, editHabitacion, habitaciones } from '../../store/actions/main.actions';
+import { Hotel } from '../../models/hotel.model';
 
 @Component({
   selector: 'app-check-in',
@@ -14,6 +15,7 @@ export class CheckInComponent implements OnInit {
 
   habitaciones: Habitacion[];
   habitacionSelected: Habitacion;
+  hotel: Hotel;
 
   checkInForm: FormGroup;
 
@@ -23,6 +25,7 @@ export class CheckInComponent implements OnInit {
   ) {
     this.store.select('mainReducer').subscribe((x) => {
       this.habitaciones = x.habitaciones;
+      this.hotel = x.hotel;
     });
 
     this.checkInForm = this.fb.group({
@@ -31,6 +34,7 @@ export class CheckInComponent implements OnInit {
       telefono: ['', Validators.required],
       rfc: ['', Validators.required],
       razon_social: ['', Validators.required],
+      precio: [this.hotel.tarifa_base+(this.hotel.tarifa_base*this.hotel.margen_ganancia/100),Validators.required]
     })
   }
 
@@ -56,7 +60,19 @@ export class CheckInComponent implements OnInit {
         razon: this.checkInForm.value.razon_social,
         rfc: this.checkInForm.value.rfc,
         telefono: this.checkInForm.value.telefono
+
       }));
+
+      this.store.dispatch(editHabitacion({
+        id: this.checkInForm.value.habitacion,
+        estado: 'ocupada'
+      }))
+
+      this.checkInForm.reset();
+
+
+
+
     } else { // caso contrario
       // Marcar todos los inputs como marcados para que aparezca error
       for (const i in this.checkInForm.controls) {

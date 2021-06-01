@@ -9,22 +9,20 @@ import { AppState } from '../app.reducer';
 import { Usuario } from 'src/app/models/usuario.model';
 import { Router } from '@angular/router';
 import { MainService } from 'src/app/services/main.service';
+import { getcheckIn } from '../actions/main.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppEffects {
-  
+
   habitaciones$ = createEffect(() => {
     return this.actions$.pipe(
         ofType(mainActions.habitaciones),
-        switchMap(() => {
-          console.log('HABITACIONES')
-          return this.mainService.getHabitaciones().pipe(
+        switchMap(() => this.mainService.getHabitaciones().pipe(
            map(data => mainActions.habitacionesSuccess({ data })),
            catchError(error => of(mainActions.habitacionesFailure({ error }))))
-
-        }),
+        ),
     );
   });
 
@@ -34,10 +32,76 @@ export class AppEffects {
         switchMap(({habitacion, nombre, telefono, rfc, razon}) =>
           this.mainService.checkIn(habitacion, nombre, telefono, rfc, razon).pipe(
             map(data => mainActions.checkInSuccess({ data })),
+            tap(x => {
+              this.store.dispatch(getcheckIn());
+            }),
             catchError(error => of(mainActions.checkInFailure({ error }))))
           ),
     );
   });
+
+  getCheckIns$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(mainActions.getcheckIn),
+        switchMap(() =>
+          this.mainService.getcheckIn().pipe(
+            map(data => mainActions.getcheckInSuccess({ data })),
+            catchError(error => of(mainActions.getcheckInFailure({ error }))))
+          ),
+    );
+  });
+
+  editHabitacion$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(mainActions.editHabitacion),
+        switchMap(({id, estado}) =>
+          this.mainService.editHabitacion(id, estado).pipe(
+            map(data => mainActions.editHabitacionSuccess({ data })),
+            tap(x => {
+              this.store.dispatch(mainActions.habitaciones());
+            }),
+            catchError(error => of(mainActions.editHabitacionFailure({ error }))))
+          ),
+    );
+  });
+
+  editCheckin$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(mainActions.editCheckin),
+        switchMap(({id, checkout}) =>
+          this.mainService.editCheckin(id, checkout).pipe(
+            map(data => mainActions.editCheckinSuccess({ data })),
+            tap((x) => {
+              this.store.dispatch(mainActions.getcheckIn());
+            }),
+            catchError(error => of(mainActions.editCheckinFailure({ error }))))
+          ),
+    );
+  });
+
+
+  reservacion$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(mainActions.reservacion),
+       switchMap(({ nombre, celular, fecha, habitaciones, total}) =>
+          this.mainService.reservacion(nombre, celular, fecha, habitaciones, total).pipe(
+            map(data => mainActions.reservacionSuccess({ data })),
+            catchError(error => of(mainActions.reservacionFailure({ error }))))
+          ),
+    );
+  });
+
+  getHotel$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(mainActions.hotel),
+        switchMap(() =>
+          this.mainService.getHotel().pipe(
+            map(data => mainActions.hotelSuccess({ data })),
+            catchError(error => of(mainActions.hotelFailure({ error }))))
+          ),
+    );
+  });
+
 
   constructor(
     private actions$: Actions,

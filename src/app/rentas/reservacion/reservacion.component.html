@@ -1,23 +1,23 @@
-<form action="">
+<form [formGroup]="reservacionForm" (ngSubmit)="onSubmit()" novalidate>
   <ion-item>
     <ion-label position="floating">Nombre</ion-label>
-    <ion-input></ion-input>
+    <ion-input formControlName="nombre"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Celular</ion-label>
-    <ion-input type="tel"></ion-input>
+    <ion-input formControlName="celular" type="tel"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Fecha</ion-label>
-    <ion-input type="date"></ion-input>
+    <ion-input formControlName="fecha" type="date"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Habitaciones</ion-label>
-    <ion-input type="number"></ion-input>
+    <ion-input formControlName="habitaciones" type="number"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Total</ion-label>
-    <ion-input type="number"></ion-input>
+    <ion-input formControlName="total" type="number"></ion-input>
   </ion-item>
-  <ion-button expand="block">Aceptar</ion-button>
+  <ion-button type="submit" expand="block">Aceptar</ion-button>
 </form>
